@@ -62,7 +62,7 @@
 	void Menu::drawControls()
 	{
 		short x = (getFrameWidth() > question.size() + 2 ? getFrameWidth() : question.size() + 2) + 3;
-		for (int i{}; i < 9; i++)
+		for (int i{}; i < 10; i++)
 		{
 			SetCursorPosition(x, 1 + i * 2);
 			SetColor(GREEN, BLACK);
@@ -321,4 +321,21 @@ void wait()
 			return;
 		}
 	}
+}
+void Progressbar(std::string mes, int sleeptime)
+{
+	drawnameframe(111, 8, 9, 5, GRAY);
+	SetCursorPosition(60 - (short)mes.size() / 2, 6);
+	std::cout << mes;
+	drawnameframe(111, 10, 9, 7, GRAY);
+	SetColor(GREEN, GREEN);
+	sleeptime -= 300;
+	for (short i{}; i < 100; i++)
+	{
+		SetCursorPosition(10 + i, 8);
+		std::cout << " ";
+		Sleep(sleeptime / 100);
+	}
+	SetColor(WHITE, BLACK);
+	system("cls");
 }

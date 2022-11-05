@@ -5,9 +5,10 @@ Vehicle::Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers
 	this->model = model;
 	this->gearbox = gearbox;
 }
-Vehicle::Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner) : Vehicle(fuel, gearbox, model, passengers) {
+Vehicle::Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon*weapon) : Vehicle(fuel, gearbox, model, passengers) {
 	this->audio = audio;
 	this->airConditioner = conditioner;
+	this->weapon = weapon;
 }
 Vehicle::Vehicle() {}
 Gearbox* Vehicle::gear() { return gearbox; }
@@ -15,6 +16,15 @@ double Vehicle::volume() { return fuel->getVolume(); }
 void Vehicle::setFuel(Fuel* fuel) {
 	this->fuel = fuel;
 }
+void Vehicle::shoot()
+{
+	Progressbar("Recharging", weapon->rechargetime());
+	float lat = stof(inputbox(YELLOW, "Enter latitude: "));
+	float lon = stof(inputbox(YELLOW, "Enter longitude: "));
+	std::pair<float, float> coords(lat,lon);
+	weapon->shoot(coords);
+}
+
 void Vehicle::setAirConditioner(AirConditioner* airConditioner) {
 	this->airConditioner = airConditioner;
 }
@@ -47,7 +57,7 @@ Car::Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::stri
 	this->engine = engine;
 	this->wheels = wheels;
 }
-Car::Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner) : Vehicle(fuel, gearbox, model, passengers, audio, conditioner) {
+Car::Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon) : Vehicle(fuel, gearbox, model, passengers, audio, conditioner,weapon) {
 	this->engine = engine;
 	this->wheels = wheels;
 }
@@ -86,6 +96,7 @@ void Car::info() {
 	info.push_back(wheels->maxOffRoadSpeed());
 	info.push_back(audio == nullptr ? "No audio system" : audio->info());
 	info.push_back(airConditioner == nullptr ? "No Conditioner" : airConditioner->info());
+	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
 	info.push_back("Max passengers: " + std::to_string(passengers));
 	WriteNice(info, YELLOW_FADE);
 }
@@ -110,7 +121,11 @@ void Car::setTurbine(Turbine* turbine)
 }
 Vehicle* Car::clone()
 {
-	return new Car(engine->clone(), wheels->clone(), fuel->clone(), gearbox->clone(), model, passengers, audio == nullptr ? nullptr : audio->clone(), airConditioner == nullptr ? nullptr : airConditioner->clone());
+	return new Car(engine->clone(), wheels->clone(), fuel->clone(), gearbox->clone(), model, passengers, audio == nullptr ? nullptr : audio->clone(), airConditioner == nullptr ? nullptr : airConditioner->clone(),weapon == nullptr ? nullptr : weapon->clone());
+}
+void Vehicle::setWeapon(Weapon* weapon)
+{
+	this->weapon = weapon;
 }
 void Car::testDrive() {
 	try {
@@ -133,7 +148,7 @@ void Car::testDrive() {
 }
 Motorbike::Motorbike() {}
 Motorbike::Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers) : Car(engine, wheels, fuel, gearbox, model, passengers) {}
-Motorbike::Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner) : Car(engine, wheels, fuel, gearbox, model, passengers, audio, conditioner) {}
+Motorbike::Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon) : Car(engine, wheels, fuel, gearbox, model, passengers, audio, conditioner,weapon) {}
 void Motorbike::info() {
 	std::vector<std::string> info;
 	info.push_back("Motorbike model: " + model);
@@ -153,10 +168,10 @@ void Motorbike::info() {
 }
 Vehicle* Motorbike::clone()
 {
-	return new Motorbike(engine->clone(), wheels->clone(), fuel->clone(), gearbox->clone(), model, passengers, audio == nullptr ? nullptr : audio->clone(), airConditioner == nullptr ? nullptr : airConditioner->clone());
+	return new Motorbike(engine->clone(), wheels->clone(), fuel->clone(), gearbox->clone(), model, passengers, audio == nullptr ? nullptr : audio->clone(), airConditioner == nullptr ? nullptr : airConditioner->clone(),weapon == nullptr ? nullptr : weapon->clone());
 }
 Boat::Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers) : Vehicle(fuel, gearbox, model, passengers) {}
-Boat::Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner) : Vehicle(fuel, gearbox, model, passengers, audio, conditioner) { this->engine = engine; }
+Boat::Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon) : Vehicle(fuel, gearbox, model, passengers, audio, conditioner,weapon) { this->engine = engine; }
 Boat::Boat() {}
 std::string Boat::drive() { return drive(true); }
 std::string Boat::drive(bool road) {
@@ -176,6 +191,7 @@ void Boat::info()
 	info.push_back(fuel->Volumeinfo());
 	info.push_back(audio == nullptr ? "No audio system" : audio->info());
 	info.push_back(airConditioner == nullptr ? "No Conditioner" : airConditioner->info());
+	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
 	info.push_back("Max passengers: " + std::to_string(passengers));
 	WriteNice(info, BLUE);
 }
@@ -188,7 +204,7 @@ Boat::~Boat()
 }
 Vehicle* Boat::clone()
 {
-	return new Boat(engine->clone(), fuel->clone(), gearbox->clone(), model, passengers, audio == nullptr ? nullptr : audio->clone(), airConditioner == nullptr ? nullptr : airConditioner->clone());
+	return new Boat(engine->clone(), fuel->clone(), gearbox->clone(), model, passengers, audio == nullptr ? nullptr : audio->clone(), airConditioner == nullptr ? nullptr : airConditioner->clone(), weapon == nullptr ? nullptr : weapon->clone());
 }
 void Boat::testDrive() {
 	try {

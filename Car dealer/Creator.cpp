@@ -4,7 +4,7 @@ Car* Selector::selectcar()
 {
 	system("cls");
 	CarBuilder* builder = nullptr;
-	switch (mainmenu({ "Standard car","FAST car","Offroad car","Drift car" }, "Select car type"))
+	switch (mainmenu({ "Standard car","FAST car","Offroad car","Drift car","Armed car"}, "Select car type"))
 	{
 	case 0:
 		builder = new Gasoline92CarStandardBuilder;
@@ -17,6 +17,8 @@ Car* Selector::selectcar()
 		break;
 	case 3:
 		builder = new TokyoDriftCarBuilder;
+	case 4:
+		builder = new ArmedForceCarBuilder;
 	}
 	return builder->start();
 }
@@ -67,7 +69,6 @@ Vehicle* Selector::run()
 	}
 
 }
-
 AirConditioner* VehicleCreator::selectConditioner()
 {
 	switch (mainmenu({ "No conditioner","Vintage air conditioner","Two zone climate control" }, "Select air conditioner"))
@@ -139,7 +140,22 @@ int VehicleCreator::enterpassengers()
 {
 	return stoi(inputbox(GREEN_FADE, "Enter max amount of passengers: "));
 }
-
+Weapon* VehicleCreator::selectWeapon()
+{
+	switch (mainmenu({ "No weapon","Minigun","Artillery","Flamethrower","M777Howitzer(adapted)"}, "Select weapon"))
+	{
+	case 0:
+		return nullptr;
+	case 1:
+		return new Minigun;
+	case 2:
+		return new Artillery;
+	case 3:
+		return new Flamethrower;
+	case 4:
+		return new M777HowitzerWeaponAdapter;
+	}
+}
 Engine* CarCreator::selectEngine()
 {
 	Turbine* turbine = selectTurbine();
@@ -175,7 +191,7 @@ Wheels* CarCreator::selectWheels()
 }
 Vehicle* CarCreator::createVehicle()
 {
-	return new Car(selectEngine(), selectWheels(), selectFuel(), selectGearBox(), Entermodel(), enterpassengers(), selectAudio(), selectConditioner());
+	return new Car(selectEngine(), selectWheels(), selectFuel(), selectGearBox(), Entermodel(), enterpassengers(), selectAudio(), selectConditioner(),selectWeapon());
 }
 
 Vehicle* MotorBikeCreator::createVehicle()
@@ -211,5 +227,5 @@ BoatEngine* BoatCreator::selectEngine()
 }
 Vehicle* BoatCreator::createVehicle()
 {
-	return new Boat(selectEngine(), selectFuel(), selectGearBox(), Entermodel(), enterpassengers(), selectAudio(), selectConditioner());
+	return new Boat(selectEngine(), selectFuel(), selectGearBox(), Entermodel(), enterpassengers(), selectAudio(), selectConditioner(),selectWeapon());
 }

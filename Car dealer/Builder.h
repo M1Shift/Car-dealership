@@ -74,6 +74,13 @@ public:
 	CarBuilder* makeRequired() override;
 	CarBuilder* makeOptions() override;
 };
+class ArmedForceCarBuilder : public CarBuilder {
+	public:
+	ArmedForceCarBuilder();
+
+	CarBuilder* makeRequired() override;
+	CarBuilder* makeOptions() override;
+};
 
 class StandardMotorBikeBuilder : public MotorbikeBuilder {
 public:

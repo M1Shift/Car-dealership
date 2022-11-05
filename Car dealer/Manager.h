@@ -4,6 +4,7 @@ class VehicleManager
 {
 protected:
 	std::vector<Vehicle*>vehicles;
+	bool work = true;
 public:
 	Vehicle* Select()
 	{
@@ -81,6 +82,23 @@ public:
 				system("cls");
 				vehicles[menu.getSelectedOption()]->info();
 				wait();
+				break;
+			case VK_F7:				
+				system("cls");
+				std::cout << "Shooting mode, press Enter to shoot, ESC to leave\n";
+				while (true)
+				{
+					switch (keymenu())
+					{
+					case ENTER:
+						vehicles[menu.getSelectedOption()]->shoot();
+						break;
+					case ESC:
+						system("cls");
+						work = false;
+					}
+					if (!work) { break; }
+				}
 				break;
 			case VK_UP:
 				menu.up();

@@ -10,10 +10,11 @@ protected:
 	AirConditioner* airConditioner = nullptr;
 	Audio* audio = nullptr;
 	Gearbox* gearbox = nullptr;
+	Weapon* weapon = nullptr;
 	int passengers;
 public:
 	Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner);
+	Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
 	Vehicle();
 	virtual std::string drive(bool road) = 0;
 	virtual void info() = 0;
@@ -26,6 +27,8 @@ public:
 	void setAudio(Audio* audio);
 	void setPassengers(int passengers);
 	void setModel(std::string model);
+	void setWeapon(Weapon* weapon);
+	void shoot();
 	std::string getmodel();
 	virtual void testDrive() = 0;
 	~Vehicle();
@@ -37,7 +40,7 @@ protected:
 public:
 	Car();
 	Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner);
+	Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
 	Car(const Car& car);
 	std::string drive(bool road) override;
 	Gearbox* gear();
@@ -55,7 +58,7 @@ class Motorbike : public Car
 public:
 	Motorbike();
 	Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner);
+	Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
 	void info() override;
 	Vehicle* clone() override;
 };
@@ -65,7 +68,7 @@ protected:
 	BoatEngine* engine = nullptr;
 public:
 	Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner);
+	Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
 	Boat();
 	std::string drive();
 	std::string drive(bool road) override;

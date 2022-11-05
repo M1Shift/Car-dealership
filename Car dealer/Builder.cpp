@@ -103,7 +103,23 @@ CarBuilder* TokyoDriftCarBuilder::makeOptions() {
 	vehicle->setAudio(new Realtek_R_Audio);
 	return this;
 }
+ArmedForceCarBuilder::ArmedForceCarBuilder() : CarBuilder() {}
 
+CarBuilder* ArmedForceCarBuilder::makeRequired() {
+	vehicle->setModel("Armed car");
+	vehicle->setEngine(new DieselEngine(new BoostTurbine));
+	vehicle->setFuel(new Diesel(5.2));
+	vehicle->setWheels(new DriftWheels());
+	vehicle->setGearbox(new Gearbox(5));
+	vehicle->setPassengers(8);
+	return this;
+}
+CarBuilder* ArmedForceCarBuilder::makeOptions() {
+	vehicle->setAirConditioner(new TwoZoneClimateControl);
+	vehicle->setAudio(new HiFiAudioSystem);
+	vehicle->setWeapon(new Artillery);
+	return this;
+}
 StandardMotorBikeBuilder::StandardMotorBikeBuilder() : MotorbikeBuilder() {}
 
 MotorbikeBuilder* StandardMotorBikeBuilder::makeRequired() {

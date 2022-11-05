@@ -67,3 +67,81 @@ class RTX4090 : public Propeller
     double getAccelerator() override;
     Propeller* clone() override;
 };
+
+class Weapon
+{
+protected:
+    float lat = 0;
+    float lng = 0;
+    bool loaded = 0;
+public:
+    virtual void shoot(std::pair<float,float>coords) = 0;
+    virtual std::string info() = 0;
+    virtual Weapon* clone() = 0;
+    virtual int rechargetime() = 0;
+    void setTarget(float lat, float lng);
+    void loadAmmo();
+        
+};
+class Minigun : public Weapon
+{
+
+public:
+    void shoot(std::pair<float, float>coords) override;
+    std::string info() override;
+    Weapon* clone() override;
+    int rechargetime() override;
+};
+class Artillery : public Weapon
+{
+public:
+    void shoot(std::pair<float, float>coords) override;
+    std::string info() override;
+    Weapon* clone() override;
+    int rechargetime() override;
+};
+class Flamethrower : public Weapon
+{
+public:
+    void shoot(std::pair<float, float>coords) override;
+    std::string info() override;
+    Weapon* clone() override;
+    int rechargetime() override;
+};
+class M777Howitzer {
+    bool loaded = false;
+    float lat = 0;
+    float lng = 0;
+public:
+    void setTarget(float lat, float lng) {
+        this->lat = lat;
+        this->lng = lng;
+    }
+    void loadAmmo() {
+        loaded = true;
+    }
+
+    void fire() {
+        if (!loaded) {
+            throw "Not loaded";
+        }
+        if (lat == 0 || lng == 0) {
+            throw "Invalid target";
+        }
+        std::cout << "Target destroyed" << std::endl;
+        loaded = false;
+        lat = 0;
+        lng = 0;
+    }
+};
+class M777HowitzerWeaponAdapter : public Weapon {
+private:
+    M777Howitzer* howitzer;
+public:
+    M777HowitzerWeaponAdapter();
+    void shoot(std::pair<float, float> coords) override;
+    ~M777HowitzerWeaponAdapter();
+    std::string info() override;
+    int rechargetime() override;
+    M777HowitzerWeaponAdapter* clone() override;
+};

@@ -21,6 +21,7 @@ public:
 	Turbine* selectTurbine();
 	std::string Entermodel();
 	Gearbox* selectGearBox();
+	Weapon* selectWeapon();
 	int enterpassengers();
 
 	virtual Vehicle* createVehicle() = 0;
