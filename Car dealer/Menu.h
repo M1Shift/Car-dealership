@@ -2,6 +2,8 @@
 #include "console.h"
 #include "Shift.h"
 const wchar_t keys[]{ L'\x2191',L'\x2193',L'\x2190',L'\x2192' };
+const std::string controls[]{ "UP: ","DOWN: ","ESC: ","F1: ","F2: ","F3: ","F4: ","F5: ","F6: "};
+const std::string controlmeans[]{"Up","Down","Exit","Create vehicle","Create pre-built vehicle","Delete vehicle","Clone vehicle","Test drive","Info"};
 using namespace std;
 class Menu {
 protected:
@@ -13,6 +15,7 @@ public:
 	Menu(const std::vector<std::string>& options, const std::string question);
 	Menu(string*& options, const string question);
 	void generate(const std::vector<std::string> options, const std::string question);
+	void drawControls();
 	void drawQuestion();
 	void drawFrame();
 	void drawOptions();
@@ -32,3 +35,4 @@ time_t EnterTime(const std::string& mes);
 bool suretable(const std::string& message);
 string inputbox(const ConsoleColor color, const string& mes);
 void WriteNice(std::vector<std::string> strings, ConsoleColor color);
+void wait();

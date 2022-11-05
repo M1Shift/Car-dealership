@@ -26,6 +26,7 @@ public:
 	void setAudio(Audio* audio);
 	void setPassengers(int passengers);
 	void setModel(std::string model);
+	std::string getmodel();
 	virtual void testDrive() = 0;
 	~Vehicle();
 };

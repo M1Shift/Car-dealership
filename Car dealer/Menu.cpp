@@ -59,6 +59,18 @@
 		}
 		SetColor(WHITE, BLACK);
 	}
+	void Menu::drawControls()
+	{
+		short x = (getFrameWidth() > question.size() + 2 ? getFrameWidth() : question.size() + 2) + 3;
+		for (int i{}; i < 9; i++)
+		{
+			SetCursorPosition(x, 1 + i * 2);
+			SetColor(GREEN, BLACK);
+			std::cout << controls[i];
+			SetColor(WHITE, BLACK);
+			std::cout << controlmeans[i];
+		}
+	}
 	//варіанти і все інше
 	void Menu::drawOptions() {
 		drawFrame();
@@ -296,4 +308,17 @@ void WriteNice(std::vector<std::string> strings, ConsoleColor color)
 		std::cout << strings[i];
 	}
 	SetCursorPosition(0,  (short)strings.size() + 3);
+}
+void wait()
+{
+	int key=-1;
+	while (true)
+	{
+		key = GetKey();
+		if (key == ENTER or key == ESC) {
+			SetColor(WHITE, BLACK);
+			system("cls");
+			return;
+		}
+	}
 }

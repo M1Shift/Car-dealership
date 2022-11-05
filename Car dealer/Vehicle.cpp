@@ -89,6 +89,10 @@ void Car::info() {
 	info.push_back("Max passengers: " + std::to_string(passengers));
 	WriteNice(info, YELLOW_FADE);
 }
+std::string Vehicle::getmodel()
+{
+	return this->model;
+}
 void Car::setWheels(Wheels* wheels) {
 	this->wheels = wheels;
 }
