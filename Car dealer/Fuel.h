@@ -62,9 +62,9 @@ public:
 	int getOffRoadSpeed() override;
 	Fuel* clone() override;
 };
-class gas : public Fuel {
+class Gas : public Fuel {
 public:
-	gas(double volume);
+	Gas(double volume);
 	std::string gettype() override;
 	double getConsumptionRate() override;
 	int getRoadSpeed() override;

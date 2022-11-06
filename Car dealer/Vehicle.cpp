@@ -24,7 +24,7 @@ void Vehicle::shoot()
 	std::pair<float, float> coords(lat,lon);
 	weapon->shoot(coords);
 }
-
+Fuel* Vehicle::getfuel() { return fuel; }
 void Vehicle::setAirConditioner(AirConditioner* airConditioner) {
 	this->airConditioner = airConditioner;
 }
@@ -51,7 +51,13 @@ Vehicle::~Vehicle()
 	delete audio;
 	std::cout << "Destructor\n";
 }
-
+std::vector<std::string> Car::getdriveinfo()
+{
+	std::vector<std::string>driveinfo;
+	driveinfo.push_back(fuel->Volumeinfo() + '/' + std::to_string(fuel->getMaxVolume()));
+	driveinfo.push_back("Current gear: " + std::to_string(gearbox->getcurrent()) + '/' + std::to_string(gearbox->getmax()));
+	return driveinfo;
+}
 Car::Car() {}
 Car::Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers) : Vehicle(fuel, gearbox, model, passengers) {
 	this->engine = engine;
@@ -78,6 +84,7 @@ std::string Car::drive(bool road) {
 	if (road ? speed > wheels->getMaxRoadSpeed() : speed > wheels->getMaxOffRoadSpeed()) {
 		throw "WHEELS FELL OFF";
 	}
+	total += speed;
 	return("Current speed: " + std::to_string(speed));
 }
 Gearbox* Car::gear() { return gearbox; }
@@ -94,6 +101,7 @@ void Car::info() {
 	info.push_back(wheels->info());
 	info.push_back(wheels->maxRoadSpeed());
 	info.push_back(wheels->maxOffRoadSpeed());
+	info.push_back("Total distance driven: " + std::to_string(total));
 	info.push_back(audio == nullptr ? "No audio system" : audio->info());
 	info.push_back(airConditioner == nullptr ? "No Conditioner" : airConditioner->info());
 	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
@@ -177,6 +185,7 @@ std::string Boat::drive() { return drive(true); }
 std::string Boat::drive(bool road) {
 	double speed = engine->getSpeed(*fuel, *gearbox);
 	fuel->use(gearbox);
+	total += speed;
 	return "Current speed: " + std::to_string(speed);
 }
 void Boat::info()
@@ -189,6 +198,7 @@ void Boat::info()
 	info.push_back(fuel->info());
 	info.push_back(fuel->MaxVolumeinfo());
 	info.push_back(fuel->Volumeinfo());
+	info.push_back("Total distance driven: " + std::to_string(total));
 	info.push_back(audio == nullptr ? "No audio system" : audio->info());
 	info.push_back(airConditioner == nullptr ? "No Conditioner" : airConditioner->info());
 	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
@@ -223,4 +233,11 @@ void Boat::testDrive() {
 		cout << "\nError: " << endl;
 		cout << e << endl;
 	}
+}
+std::vector<std::string> Boat::getdriveinfo()
+{
+	std::vector<std::string>driveinfo;
+	driveinfo.push_back(fuel->Volumeinfo() + '/' + std::to_string(fuel->getMaxVolume()));
+	driveinfo.push_back("Current gear: " + std::to_string(gearbox->getcurrent()) + '/' + std::to_string(gearbox->getmax()));
+	return driveinfo;
 }

@@ -7,7 +7,7 @@
 #include "Other.h"
 enum Engines
 {
-	benzin92_95, benzin95_98,benzin98_100, diesel, Gas,electric
+	benzin92_95, benzin95_98,benzin98_100, diesel, gas,electric
 };
 const std::string enginefuels[]{ "gasoline92/95","gasoline95/98","gasoline98/100","diesel","Gas","Electric" };
 class Engine {

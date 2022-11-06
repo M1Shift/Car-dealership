@@ -12,9 +12,10 @@ protected:
 	Gearbox* gearbox = nullptr;
 	Weapon* weapon = nullptr;
 	int passengers;
+	double total = 0;
 public:
 	Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
+	Vehicle(Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner, Weapon* weapon);
 	Vehicle();
 	virtual std::string drive(bool road) = 0;
 	virtual void info() = 0;
@@ -28,8 +29,10 @@ public:
 	void setPassengers(int passengers);
 	void setModel(std::string model);
 	void setWeapon(Weapon* weapon);
+	virtual std::vector<std::string> getdriveinfo() = 0;
 	void shoot();
 	std::string getmodel();
+	Fuel* getfuel();
 	virtual void testDrive() = 0;
 	~Vehicle();
 };
@@ -40,7 +43,7 @@ protected:
 public:
 	Car();
 	Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
+	Car(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner, Weapon* weapon);
 	Car(const Car& car);
 	std::string drive(bool road) override;
 	Gearbox* gear();
@@ -52,13 +55,14 @@ public:
 	void setTurbine(Turbine* turbine);
 	void testDrive() override;
 	virtual Vehicle* clone() override;
+	std::vector<std::string> getdriveinfo() override;
 };
 class Motorbike : public Car
 {
 public:
 	Motorbike();
 	Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
+	Motorbike(Engine* engine, Wheels* wheels, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner, Weapon* weapon);
 	void info() override;
 	Vehicle* clone() override;
 };
@@ -68,7 +72,7 @@ protected:
 	BoatEngine* engine = nullptr;
 public:
 	Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers);
-	Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner,Weapon* weapon);
+	Boat(BoatEngine* engine, Fuel* fuel, Gearbox* gearbox, std::string model, int passengers, Audio* audio, AirConditioner* conditioner, Weapon* weapon);
 	Boat();
 	std::string drive();
 	std::string drive(bool road) override;
@@ -77,4 +81,5 @@ public:
 	~Boat();
 	Vehicle* clone() override;
 	void testDrive() override;
+	std::vector<std::string> getdriveinfo() override;
 };

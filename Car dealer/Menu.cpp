@@ -62,7 +62,7 @@
 	void Menu::drawControls()
 	{
 		short x = (getFrameWidth() > question.size() + 2 ? getFrameWidth() : question.size() + 2) + 3;
-		for (int i{}; i < 10; i++)
+		for (int i{}; i < 11; i++)
 		{
 			SetCursorPosition(x, 1 + i * 2);
 			SetColor(GREEN, BLACK);
@@ -71,6 +71,7 @@
 			std::cout << controlmeans[i];
 		}
 	}
+	
 	//варіанти і все інше
 	void Menu::drawOptions() {
 		drawFrame();
@@ -145,7 +146,7 @@ WCHAR keymenu()
 	}
 }
 //малює квадрат
-void drawnameframe(const size_t width, const size_t height, const size_t startX, const size_t startY, const ConsoleColor color)
+ void drawnameframe(const size_t width, const size_t height, const size_t startX, const size_t startY, const ConsoleColor color)
 {
 	for (size_t y = startY; y < height; y++)
 	{
@@ -290,6 +291,7 @@ bool suretable(const std::string& message) {
 		}
 	}
 }
+
 string inputbox(const ConsoleColor color, const string& mes)
 {
 	string res;
@@ -329,13 +331,26 @@ void Progressbar(std::string mes, int sleeptime)
 	std::cout << mes;
 	drawnameframe(111, 10, 9, 7, GRAY);
 	SetColor(GREEN, GREEN);
-	sleeptime -= 300;
+	sleeptime -= 200;
+	SetCursorPosition(10, 8);
 	for (short i{}; i < 100; i++)
 	{
-		SetCursorPosition(10 + i, 8);
 		std::cout << " ";
 		Sleep(sleeptime / 100);
 	}
 	SetColor(WHITE, BLACK);
 	system("cls");
 }
+
+void drawDriveControls(std::vector<std::string> mes)
+	{
+		short x = mes[shift::biggest(mes)].size()+10;
+		for (int i{}; i < 7; i++)
+		{
+			SetCursorPosition(x, 1 + i * 2);
+			SetColor(GREEN, BLACK);
+			std::cout << drivecontrols[i];
+			SetColor(WHITE, BLACK);
+			std::cout << drivemeans[i];
+		}
+	}

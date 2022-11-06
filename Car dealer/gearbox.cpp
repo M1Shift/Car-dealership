@@ -6,7 +6,7 @@ Gearbox::Gearbox(int max)
 }
 void Gearbox::up()
 {
-	current++;
+	if(current!=maxgears) current++;
 }
 void Gearbox::down()
 {

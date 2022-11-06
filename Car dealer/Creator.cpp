@@ -107,7 +107,7 @@ Fuel* VehicleCreator::selectFuel()
 	case 3:
 		return new Gasoline100(volume);
 	case 4:
-		return new gas(volume);
+		return new Gas(volume);
 	case 5:
 		return new Diesel(volume);
 	case 6:

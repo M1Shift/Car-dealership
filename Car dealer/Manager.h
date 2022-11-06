@@ -47,6 +47,93 @@ public:
 		}
 		return names;
 	}
+	void shootmode(size_t idx)
+	{
+		system("cls");
+		std::cout << "Shooting mode, press Enter to shoot, ESC to leave\n";
+		while (true)
+		{
+			switch (keymenu())
+			{
+			case ENTER:
+				vehicles[idx]->shoot();
+				break;
+			case ESC:
+				system("cls");
+				work = false;
+			}
+			if (!work) { break; }
+		}
+	}
+	void fuelmenu(size_t idx)
+	{
+		system("cls");
+		switch (mainmenu({ "refill", "change" }, "Fuel menu"))
+		{
+		case 0:
+			vehicles[idx]->setFuel(vehicles[idx]->getfuel()->clone());
+			break;
+		case 1:
+			switch (mainmenu({ "Gasoline 92","Gasoline 95","Gasoline 98","Gasoline 100","Gas","Diesel","Electric" }, "Select fuel"))
+			{
+			case 0:
+				vehicles[idx]->setFuel(new Gasoline92(vehicles[idx]->getfuel()->getVolume()));
+			case 1:
+				vehicles[idx]->setFuel(new Gasoline95(vehicles[idx]->getfuel()->getVolume()));
+			case 2:
+				vehicles[idx]->setFuel(new Gasoline98(vehicles[idx]->getfuel()->getVolume()));
+			case 3:
+				vehicles[idx]->setFuel(new Gasoline100(vehicles[idx]->getfuel()->getVolume()));
+			case 4:
+				vehicles[idx]->setFuel(new Gas(vehicles[idx]->getfuel()->getVolume()));
+			case 5:
+				vehicles[idx]->setFuel(new Diesel(vehicles[idx]->getfuel()->getVolume()));
+			case 6:
+				vehicles[idx]->setFuel(new Electric(vehicles[idx]->getfuel()->getVolume()));
+			}
+			break;
+		}
+	}
+	void drivemode(size_t idx)
+	{
+		bool road = true;
+		system("cls");
+		std::vector<std::string> driveinfo;
+
+		while (true)
+		{
+			system("cls");
+			std::vector<std::string> temp = vehicles[idx]->getdriveinfo();
+			driveinfo.insert(driveinfo.end(), temp.begin(), temp.end());
+			WriteNice(driveinfo, YELLOW_FADE);
+			drawDriveControls(driveinfo);
+			switch (keymenu())
+			{
+			case VK_UP:
+				vehicles[idx]->gear()->up();
+				break;
+			case VK_DOWN:
+				vehicles[idx]->gear()->down();
+				break;
+			case ESC:
+				system("cls");
+				return;
+			case VK_SHIFT:
+				road = !road;
+				break;
+			case VK_TAB:
+				fuelmenu(idx);
+				driveinfo.clear();
+				break;
+			case VK_RETURN:
+				driveinfo.push_back(vehicles[idx]->drive(road));
+				break;
+			case VK_BACK:
+				driveinfo.clear();
+				break;
+			}
+		}
+	}
 	void run()
 	{
 		Menu menu({ getnames(),"Welcome!" });
@@ -83,22 +170,11 @@ public:
 				vehicles[menu.getSelectedOption()]->info();
 				wait();
 				break;
-			case VK_F7:				
-				system("cls");
-				std::cout << "Shooting mode, press Enter to shoot, ESC to leave\n";
-				while (true)
-				{
-					switch (keymenu())
-					{
-					case ENTER:
-						vehicles[menu.getSelectedOption()]->shoot();
-						break;
-					case ESC:
-						system("cls");
-						work = false;
-					}
-					if (!work) { break; }
-				}
+			case VK_F7:
+				shootmode(menu.getSelectedOption());
+				break;
+			case VK_F8:
+				drivemode(menu.getSelectedOption());
 				break;
 			case VK_UP:
 				menu.up();

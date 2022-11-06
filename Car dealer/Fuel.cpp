@@ -8,11 +8,11 @@ std::string Fuel::info() {
 }
 std::string Fuel::Volumeinfo()
 {
-	return "Current volume: " + std::to_string(volume) + " L";
+	return "Current volume: " + std::to_string(volume);
 }
 std::string Fuel::MaxVolumeinfo()
 {
-	return "Max volume: " + std::to_string(maxvolume) + " L";
+	return "Max volume: " + std::to_string(maxvolume);
 }
 double Fuel::getVolume() {
 	return volume;
@@ -115,26 +115,26 @@ Gasoline100::Gasoline100(double volume) : Fuel(volume) {}
 		return new Gasoline100(maxvolume);
 	}
 
-	gas::gas(double volume) : Fuel(volume) {}
-	std::string gas::gettype() 
+	Gas::Gas(double volume) : Fuel(volume) {}
+	std::string Gas::gettype() 
 	{
 		return fueltypes[GAS];
 	}
-	double gas::getConsumptionRate() 
+	double Gas::getConsumptionRate() 
 	{
 		return 0.15;
 	}
-	int gas::getRoadSpeed() 
+	int Gas::getRoadSpeed() 
 	{
 		return fuelspeeds[GAS].first;
 	}
-	int gas::getOffRoadSpeed() 
+	int Gas::getOffRoadSpeed() 
 	{
 		return fuelspeeds[GAS].second;
 	}
-	Fuel* gas::clone() 
+	Fuel* Gas::clone() 
 	{
-		return new gas(maxvolume);
+		return new Gas(maxvolume);
 	}
 
 	Diesel::Diesel(double volume) : Fuel(volume) {}
