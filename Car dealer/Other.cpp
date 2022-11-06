@@ -88,11 +88,14 @@ void Minigun::shoot(std::pair<float, float> coords)  {
     if (lat == 0 || lng == 0) {
         throw "Invalid target";
     }
+    fire();
+    Sleep(300);
     std::cout << "Target destroyed" << std::endl;
     loaded = false;
     lat = 0;
     lng = 0;
 }
+
 int Minigun::rechargetime()
 {
     return 1000;
@@ -115,7 +118,9 @@ void Artillery::shoot(std::pair<float, float> coords) {
     if (lat == 0 || lng == 0) {
         throw "Invalid target";
     }
-    std::cout << "Target destroyed" << std::endl;
+    fire();
+    Sleep(1500);
+    std::cout << "Boom,Target destroyed" << std::endl;
     loaded = false;
     lat = 0;
     lng = 0;
@@ -135,6 +140,8 @@ void Flamethrower::shoot(std::pair<float, float> coords) {
     if (lat == 0 || lng == 0) {
         throw "Invalid target";
     }
+    fire();
+    Sleep(800);
     std::cout << "Target destroyed" << std::endl;
     loaded = false;
     lat = 0;
@@ -173,4 +180,107 @@ int M777HowitzerWeaponAdapter::rechargetime()
 }
 M777HowitzerWeaponAdapter* M777HowitzerWeaponAdapter::clone() {
     return new M777HowitzerWeaponAdapter();
+}
+std::string NeonCatLauncher::info()
+{
+    return "Weapon: neon cat launcher";
+}
+int NeonCatLauncher::rechargetime()
+{
+    return 4000;
+}
+Weapon* NeonCatLauncher::clone()
+{
+    return new NeonCatLauncher;
+}
+void NeonCatLauncher::shoot(std::pair<float, float> coords) {
+    loadAmmo();
+    setTarget(coords.first, coords.second);
+    if (lat == 0 || lng == 0) {
+        throw "Invalid target";
+    }
+    fire();
+    Sleep(1500);
+    std::cout << "Target destroyed" << std::endl;
+    loaded = false;
+    lat = 0;
+    lng = 0;
+}
+MultiWeapon::MultiWeapon(std::vector<Weapon*>weapons)
+{
+    this->weapons = weapons;
+}
+int MultiWeapon::rechargetime()
+{
+    int max = 0;
+    for (auto i : weapons)
+    {
+        if (i->rechargetime() > max)max = i->rechargetime();
+    }
+    return max;
+}
+std::string MultiWeapon::info()
+{
+    std::string res = "MultiWeapon, Weapons: \n ";
+    for (auto i : weapons)
+    {
+        res += i->info() + "\n ";
+    }
+    return res;
+}
+Weapon* MultiWeapon::clone()
+{
+    std::vector<Weapon*> copy;
+    for (auto i : weapons)
+    {
+        copy.push_back(i->clone());
+    }
+    return new MultiWeapon(copy);
+}
+void MultiWeapon::shoot(std::pair<float, float> coords)  {
+    loadAmmo();
+    setTarget(coords.first, coords.second);
+    if (lat == 0 || lng == 0) {
+        throw "Invalid target";
+    }
+    fire();
+    Sleep(rechargetime()/2);
+    std::cout << "Target destroyed" << std::endl;
+    loaded = false;
+    lat = 0;
+    lng = 0;
+}
+MultiWeapon::~MultiWeapon()
+{
+    for (auto i : weapons)
+    {
+        delete i;
+   }
+}
+void Minigun::fire()
+{
+    std::cout << "pew pew ";
+}
+void Artillery::fire()
+{
+    std::cout << "weeee, boom ";
+}
+void Flamethrower::fire()
+{
+    std::cout << "wzhhhhhhh ";
+}
+void M777HowitzerWeaponAdapter::fire()
+{
+    std::cout << "";
+}
+void NeonCatLauncher::fire()
+{
+    std::cout << "meow meow ";
+}
+void MultiWeapon::fire()
+{
+    for (auto i : weapons)
+    {
+        i->fire();
+    }
 }

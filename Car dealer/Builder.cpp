@@ -218,3 +218,19 @@ BoatBuilder* BigElectricBoatBuilder::makeOptions()  {
 	return this;
 }
 
+DualArmedShipBuilder::DualArmedShipBuilder() : BoatBuilder() {}
+
+BoatBuilder* DualArmedShipBuilder::makeRequired()  {
+	vehicle->setModel("Pew meow ship");
+	vehicle->setEngine(new GasolineAllBoatEngine({ new DualTurbine,new CarbonPropeller }));
+	vehicle->setFuel(new Gasoline98(8));
+	vehicle->setGearbox(new Gearbox(8));
+	vehicle->setPassengers(10);
+	return this;
+}
+BoatBuilder* DualArmedShipBuilder::makeOptions()  {
+	vehicle->setAirConditioner(new TwoZoneClimateControl);
+	vehicle->setAudio(new HiFiAudioSystem);
+	vehicle->setWeapon(new MultiWeapon({new Minigun,new Minigun}));
+	return this;
+}

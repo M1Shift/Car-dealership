@@ -23,7 +23,7 @@ public:
 	Gearbox* selectGearBox();
 	Weapon* selectWeapon();
 	int enterpassengers();
-
+	std::vector<Weapon*> createweapons();
 	virtual Vehicle* createVehicle() = 0;
 };
 class CarCreator : public VehicleCreator

@@ -104,8 +104,9 @@ void Car::info() {
 	info.push_back("Total distance driven: " + std::to_string(total));
 	info.push_back(audio == nullptr ? "No audio system" : audio->info());
 	info.push_back(airConditioner == nullptr ? "No Conditioner" : airConditioner->info());
+
+	info.push_back("Max passengers: " + std::to_string(passengers));	
 	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
-	info.push_back("Max passengers: " + std::to_string(passengers));
 	WriteNice(info, YELLOW_FADE);
 }
 std::string Vehicle::getmodel()
@@ -201,8 +202,9 @@ void Boat::info()
 	info.push_back("Total distance driven: " + std::to_string(total));
 	info.push_back(audio == nullptr ? "No audio system" : audio->info());
 	info.push_back(airConditioner == nullptr ? "No Conditioner" : airConditioner->info());
-	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
+	
 	info.push_back("Max passengers: " + std::to_string(passengers));
+	info.push_back(weapon == nullptr ? "No weapon" : weapon->info());
 	WriteNice(info, BLUE);
 }
 void Boat::setEngine(BoatEngine* engine) {

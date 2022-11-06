@@ -43,7 +43,7 @@ Boat* Selector::selectboat()
 {
 	system("cls");
 	BoatBuilder* builder = nullptr;
-	switch (mainmenu({ "Standard boat","Ultra fast boat","Electro boat" }, "Select boat type"))
+	switch (mainmenu({ "Standard boat","Ultra fast boat","Electro boat","Dual armed boat"}, "Select boat type"))
 	{
 	case 0:
 		builder = new StandardMotorboatbuilder;
@@ -53,6 +53,10 @@ Boat* Selector::selectboat()
 		break;
 	case 2:
 		builder = new BigElectricBoatBuilder;
+		break;
+	case 3:
+		builder = new DualArmedShipBuilder;
+		break;
 	}
 	return builder->start();
 }
@@ -140,9 +144,19 @@ int VehicleCreator::enterpassengers()
 {
 	return stoi(inputbox(GREEN_FADE, "Enter max amount of passengers: "));
 }
+std::vector<Weapon*> VehicleCreator::createweapons()
+{
+	std::vector<Weapon*> weapons;
+	int times = stoi(inputbox(BLUE_FADE, "Enter amount of weapons: "));
+	for (int i{}; i < times; i++)
+	{
+		weapons.push_back(selectWeapon());
+	}
+	return weapons;
+}
 Weapon* VehicleCreator::selectWeapon()
 {
-	switch (mainmenu({ "No weapon","Minigun","Artillery","Flamethrower","M777Howitzer(adapted)"}, "Select weapon"))
+	switch (mainmenu({ "No weapon","Minigun","Artillery","Flamethrower","M777Howitzer(adapted)","Neon cat launcher","Multi weapon"}, "Select weapon"))
 	{
 	case 0:
 		return nullptr;
@@ -154,6 +168,10 @@ Weapon* VehicleCreator::selectWeapon()
 		return new Flamethrower;
 	case 4:
 		return new M777HowitzerWeaponAdapter;
+	case 5:
+		return new NeonCatLauncher;
+	case 6:
+		return new MultiWeapon(createweapons());
 	}
 }
 Engine* CarCreator::selectEngine()

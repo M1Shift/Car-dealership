@@ -128,5 +128,13 @@ public:
 	BoatBuilder* makeRequired() override;
 	BoatBuilder* makeOptions() override;
 };
+class DualArmedShipBuilder : public BoatBuilder
+{
+public:
+	DualArmedShipBuilder();
 
+	BoatBuilder* makeRequired() override;
+	BoatBuilder* makeOptions() override;
+
+};
 
