@@ -77,19 +77,26 @@ public:
 			switch (mainmenu({ "Gasoline 92","Gasoline 95","Gasoline 98","Gasoline 100","Gas","Diesel","Electric" }, "Select fuel"))
 			{
 			case 0:
-				vehicles[idx]->setFuel(new Gasoline92(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Gasoline92(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			case 1:
-				vehicles[idx]->setFuel(new Gasoline95(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Gasoline95(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			case 2:
-				vehicles[idx]->setFuel(new Gasoline98(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Gasoline98(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			case 3:
-				vehicles[idx]->setFuel(new Gasoline100(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Gasoline100(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			case 4:
-				vehicles[idx]->setFuel(new Gas(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Gas(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			case 5:
-				vehicles[idx]->setFuel(new Diesel(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Diesel(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			case 6:
-				vehicles[idx]->setFuel(new Electric(vehicles[idx]->getfuel()->getVolume()));
+				vehicles[idx]->setFuel(new Electric(vehicles[idx]->getfuel()->getMaxVolume()));
+				break;
 			}
 			break;
 		}
